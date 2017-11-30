@@ -1,0 +1,8 @@
+﻿{
+  "Company": "Kevin Pearson <kevin@pearsonhouse.net>",
+  "Header": [
+    "{SingleComment}",
+    "{SingleComment} {Copyright} {Year} {CompanyName}",
+    "{SingleComment}"
+  ]
+}
