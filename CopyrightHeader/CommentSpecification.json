@@ -8,7 +8,17 @@
       "c",
       "cs",
       "cpp",
-      "c++"
+      "c++",
+      "js"
+    ]
+  },
+  {
+    "Name": "Yaml",
+    "SingleComment": "#",
+    "CommentBegin": "",
+    "CommentEnd": "",
+    "Extensions": [
+      "yml"
     ]
   },
   {
@@ -18,7 +28,7 @@
     "CommentEnd": "",
     "Extensions": [
       "sh",
-      "bash"
+      "bash",
     ]
   },
   {
