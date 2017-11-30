@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "Name": "C based",
     "SingleComment": "//",
@@ -38,6 +38,8 @@
     "CommentBegin": "<!--",
     "CommentEnd": "-->",
     "Extensions": [
+      "html",
+      "htm",
       "xml",
       "xsd",
       "xslt",

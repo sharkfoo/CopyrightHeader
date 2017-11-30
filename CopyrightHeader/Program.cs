@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
+using System.Runtime.Serialization.Json;
 
 namespace CopyrightHeader
 {
@@ -15,7 +16,7 @@ namespace CopyrightHeader
         private static string inputFile = "";
         private static string outputFile = "";
         private static string template = "";
-        private const int lineCount = 10;
+        private static int lineCount = 10;
         private static CopyrightTemplate companyTemplate;
 
         private static void Usage(string msg = null)
@@ -40,7 +41,14 @@ namespace CopyrightHeader
                 {
                     if (paramList.ContainsKey(keyValue[0]))
                     {
-                        paramList[keyValue[0]].Invoke(keyValue[1]);
+                        try
+                        {
+                            paramList[keyValue[0]].Invoke(keyValue[1]);
+                        }
+                        catch (Exception)
+                        {
+                            Usage($"Error in parameter {keyValue[0]}");
+                        }
                     }
                 }
             }
@@ -126,23 +134,25 @@ namespace CopyrightHeader
 
             if (!string.IsNullOrWhiteSpace(template))
             {
-                var path = Path.Combine(AssemblyDirectory, "templates");
-                path = Path.Combine(path, template + ".json");
+                //var path = Path.Combine(AssemblyDirectory, "templates");
+                var path = "templates." + template + ".json";
 
-                if (!File.Exists(path))
-                {
-                    Usage($"Template does not exist: {path}");
-                }
-                Console.WriteLine($"Using template: {path}");
                 try
                 {
-                    using (StreamReader file = File.OpenText(path))
+                    using (var resource = ResourceStream(path))
                     {
-                        var serializer = new JsonSerializer();
-                        companyTemplate = (CopyrightTemplate)serializer.Deserialize(file, typeof(CopyrightTemplate));
-                        if (companyTemplate == null)
+                        if (resource != null)
                         {
-                            Usage("Invalid template");
+                            var serializer = new DataContractJsonSerializer(typeof(CopyrightTemplate));
+                            companyTemplate = (CopyrightTemplate) serializer.ReadObject(resource);
+                            if (companyTemplate == null)
+                            {
+                                Usage("Invalid template");
+                            }
+                        }
+                        else
+                        {
+                            Usage($"Bad or missing template: {path}");
                         }
                     }
                 }
@@ -155,21 +165,24 @@ namespace CopyrightHeader
 
         public static void GetCommentInfo()
         {
+            const string commentSpecFile = "CommentSpecification.json";
             try
             {
-                var path = Path.Combine(AssemblyDirectory, "CommentSpecification.json");
                 var ext = Path.GetExtension(inputFile);
-                using (StreamReader file = File.OpenText(path))
+                using (var resource = ResourceStream(commentSpecFile))
                 {
-                    var serializer = new JsonSerializer();
-                    var commentSpecs = (CommentSpec[])serializer.Deserialize(file, typeof(CommentSpec[]));
-                    var commentSpec = commentSpecs.Find(ext);
-                    if (commentSpec == null)
+                    if (resource != null)
                     {
-                        Usage($"Unsupported file: {inputFile}");
+                        var serializer = new DataContractJsonSerializer(typeof(CommentSpec[]));
+                        var commentSpecs = (CommentSpec[]) serializer.ReadObject(resource);
+                        var commentSpec = commentSpecs.Find(ext);
+                        if (commentSpec == null)
+                        {
+                            Usage($"Unsupported file: {inputFile}");
+                        }
+                        Console.WriteLine($"Using {commentSpec?.Name} extension specification");
+                        companyTemplate.CommentSpec = commentSpec;
                     }
-                    Console.WriteLine($"Using {commentSpec?.Name} extension specification");
-                    companyTemplate.CommentSpec = commentSpec;
                 }
             }
             catch (Exception e)
@@ -183,6 +196,7 @@ namespace CopyrightHeader
             paramList.Add("input", a => inputFile = a);
             paramList.Add("output", a => outputFile = a);
             paramList.Add("template", a => template = a);
+            paramList.Add("linecount", a => lineCount = int.Parse(a));
             ParseArguments(args);
 
             CheckArguments();
@@ -191,6 +205,10 @@ namespace CopyrightHeader
             var buffer = ReadFile(inputFile);
             if (buffer.Count > 0)
             {
+                if (lineCount > buffer.Count)
+                {
+                    lineCount = buffer.Count;
+                }
                 var copyright = new Copyright(companyTemplate);
                 if (copyright.FindCurrentCopyright(buffer, lineCount))
                 {
@@ -202,6 +220,17 @@ namespace CopyrightHeader
                 WriteFile(outputFile, buffer);
             }
         }
+
+        private static Stream ResourceStream(string name)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resources = assembly.GetManifestResourceNames();
+            var resourceName = resources.First(x => x.EndsWith(name));
+
+            var stream = assembly.GetManifestResourceStream(resourceName);
+            return stream;
+        }
+
         private static string AssemblyDirectory
         {
             get
