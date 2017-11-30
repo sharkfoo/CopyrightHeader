@@ -13,7 +13,6 @@ namespace CopyrightHeader
         private readonly int currentYear = DateTime.Now.Date.Year;
 
         private readonly CopyrightTemplate template;
-        private readonly string companyName;
         private readonly string copyrightName;
         private readonly string yearSpanPattern;
         private readonly string yearPattern;
@@ -23,10 +22,9 @@ namespace CopyrightHeader
         {
             this.template = companyTemplate;
 
-            companyName = template.Company;
             if (string.IsNullOrWhiteSpace(template.CompanyPattern))
             {
-                template.CompanyPattern = companyName;
+                template.CompanyPattern = template.Company;
             }
 
             var companyPattern = "(?'company'" + template.CompanyPattern + ")";
@@ -63,7 +61,7 @@ namespace CopyrightHeader
                 if (m.Success)
                 {
                     //Fix company
-                    header = ReplaceGroup(regex, header, "company", companyName);
+                    header = ReplaceGroup(regex, header, "company", template.Company);
 
                     var yearString = m.Groups["endYear"].Value;
                     if (!string.IsNullOrEmpty(yearString))
@@ -107,12 +105,15 @@ namespace CopyrightHeader
         {
             var year = DateTime.Now.Date.Year;
 
-            for (int i = template.Header.Length; i >= 0; i--)
+            for (int i = template.Header.Length - 1; i >= 0; i--)
             {
                 var line = template.Header[i];
-                line = line.Replace("{copyright}", copyrightName);
-                line = line.Replace("{year}", year.ToString());
-                line = line.Replace("{companyName}", companyName);
+                line = line.Replace("{SingleComment}", template.CommentSpec.SingleComment).
+                    Replace("{CommentBegin}", template.CommentSpec.CommentBegin).
+                    Replace("{CommentEnd}", template.CommentSpec.CommentEnd).
+                    Replace("{Copyright}", copyrightName).
+                    Replace("{Year}", year.ToString()).
+                    Replace("{CompanyName}", template.Company);
                 buffer.Insert(0, line);
             }
         }

@@ -153,6 +153,31 @@ namespace CopyrightHeader
             }
         }
 
+        public static void GetCommentInfo()
+        {
+            try
+            {
+                var path = Path.Combine(AssemblyDirectory, "CommentSpecification.json");
+                var ext = Path.GetExtension(inputFile);
+                using (StreamReader file = File.OpenText(path))
+                {
+                    var serializer = new JsonSerializer();
+                    var commentSpecs = (CommentSpec[])serializer.Deserialize(file, typeof(CommentSpec[]));
+                    var commentSpec = commentSpecs.Find(ext);
+                    if (commentSpec == null)
+                    {
+                        Usage($"Unsupported file: {inputFile}");
+                    }
+                    Console.WriteLine($"Using {commentSpec?.Name} extension specification");
+                    companyTemplate.CommentSpec = commentSpec;
+                }
+            }
+            catch (Exception e)
+            {
+                Usage(e.Message);
+            }
+        }
+
         private static void Main(string[] args)
         {
             paramList.Add("input", a => inputFile = a);
@@ -162,6 +187,7 @@ namespace CopyrightHeader
 
             CheckArguments();
 
+            GetCommentInfo();
             var buffer = ReadFile(inputFile);
             if (buffer.Count > 0)
             {

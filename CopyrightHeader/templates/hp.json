@@ -1,9 +1,9 @@
 {
     "Company": "HP Development Company, L.P.",
     "CompanyPattern": "(Hewlett-Packard|HP) (Development|Dev.) (Company|Co.), L.P.|HPDC",
-    "Header": [
-        "//",
-        "// {copyright} {year} {companyName}",
-        "//"
-    ]
+  "Header": [
+    "{SingleComment}",
+    "{SingleComment} {Copyright} {Year} {CompanyName}",
+    "{SingleComment}"
+  ]
 }

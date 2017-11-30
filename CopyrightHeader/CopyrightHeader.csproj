@@ -69,6 +69,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentSpec.cs" />
     <Compile Include="Copyright.cs" />
     <Compile Include="CopyrightTemplate.cs" />
     <Compile Include="Program.cs" />
@@ -76,11 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="CopyrightHeader_TemporaryKey.pfx" />
-    <None Include="packages.config" />
-    <None Include="templates\hp.json">
+    <Content Include="CommentSpecification.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <None Include="packages.config" />
+    <Content Include="templates\hp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">

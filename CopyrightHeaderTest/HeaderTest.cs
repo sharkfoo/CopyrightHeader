@@ -118,9 +118,15 @@ namespace CopyrightHeaderTest
             CompanyPattern = "(Hewlett-Packard|HP) (Development|Dev.) (Company|Co.), L.P.|HPDC",
             Header = new string[]
             {
-                "//",
-                "// {copyright} {year} {companyName}",
-                "//"
+                "{comment}",
+                "{comment} {copyright} {year} {companyName}",
+                "{comment}"
+            },
+            CommentSpec = new CommentSpec()
+            {
+                SingleComment = "//",
+                CommentBegin = "/*",
+                CommentEnd = "*/"
             }
         };
         private readonly CopyrightTemplate acme = new CopyrightTemplate
@@ -128,9 +134,15 @@ namespace CopyrightHeaderTest
             Company = "Acme, Inc.",
             Header = new string[]
             {
-                "//",
-                "// {copyright} {year} {companyName}",
-                "//"
+                "{comment}",
+                "{comment} {copyright} {year} {companyName}",
+                "{comment}"
+            },
+            CommentSpec = new CommentSpec()
+            {
+                SingleComment = "//",
+                CommentBegin = "/*",
+                CommentEnd = "*/"
             }
         };
     }

@@ -1,0 +1,47 @@
+﻿[
+  {
+    "Name": "C based",
+    "SingleComment": "//",
+    "CommentBegin": "/*",
+    "CommentEnd": "*/",
+    "Extensions": [
+      "c",
+      "cs",
+      "cpp",
+      "c++"
+    ]
+  },
+  {
+    "Name": "Bash",
+    "SingleComment": "#",
+    "CommentBegin": "",
+    "CommentEnd": "",
+    "Extensions": [
+      "sh",
+      "bash"
+    ]
+  },
+  {
+    "Name": "Powershell",
+    "SingleComment": "#",
+    "CommentBegin": "<#",
+    "CommentEnd": "#>",
+    "Extensions": [
+      "ps1",
+      "psm1",
+      "psd1"
+    ]
+  },
+  {
+    "Name": "XML based",
+    "SingleComment": "",
+    "CommentBegin": "<!--",
+    "CommentEnd": "-->",
+    "Extensions": [
+      "xml",
+      "xsd",
+      "xslt",
+      "xsl"
+    ]
+  }
+]
