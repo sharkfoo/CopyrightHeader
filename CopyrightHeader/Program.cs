@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Json;
 
 namespace CopyrightHeader
@@ -54,60 +52,6 @@ namespace CopyrightHeader
             }
         }
 
-        private static IList<string> ReadFile(string fileName)
-        {
-            var buffer = new List<string>();
-            if (File.Exists(fileName))
-            {
-                using (var reader = new StreamReader(fileName))
-                {
-                    var line = "";
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        buffer.Add(line);
-                    }
-                }
-            }
-            return buffer;
-        }
-
-        private static void WriteFile(string fileName, IEnumerable<string> buffer)
-        {
-            var backup = fileName + ".cp.bak";
-            //Make a backup just in case
-            if (File.Exists(fileName))
-            {
-                if (File.Exists(backup))
-                {
-                    File.Delete(backup);
-                }
-                File.Copy(fileName, backup);
-            }
-
-            try
-            {
-                using (var writer = new StreamWriter(fileName))
-                {
-                    Console.WriteLine($"Writing file: {fileName}");
-                    foreach (var line in buffer)
-                    {
-                        writer.WriteLine(line);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                File.Copy(backup, fileName);
-            }
-            finally
-            {
-                if (File.Exists(backup))
-                {
-                    File.Delete(backup);
-                }
-            }
-        }
-
         private static void CheckArguments()
         {
             //If an output file is not specified, then use inputfile as the outputfile
@@ -132,63 +76,7 @@ namespace CopyrightHeader
                 Usage($"Output file already exits: {outputFile}");
             }
 
-            if (!string.IsNullOrWhiteSpace(template))
-            {
-                //var path = Path.Combine(AssemblyDirectory, "templates");
-                var path = "templates." + template + ".json";
-
-                try
-                {
-                    using (var resource = ResourceStream(path))
-                    {
-                        if (resource != null)
-                        {
-                            var serializer = new DataContractJsonSerializer(typeof(CopyrightTemplate));
-                            companyTemplate = (CopyrightTemplate) serializer.ReadObject(resource);
-                            if (companyTemplate == null)
-                            {
-                                Usage("Invalid template");
-                            }
-                        }
-                        else
-                        {
-                            Usage($"Bad or missing template: {path}");
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Usage(e.Message);
-                }
-            }
-        }
-
-        public static void GetCommentInfo()
-        {
-            const string commentSpecFile = "CommentSpecification.json";
-            try
-            {
-                var ext = Path.GetExtension(inputFile);
-                using (var resource = ResourceStream(commentSpecFile))
-                {
-                    if (resource != null)
-                    {
-                        var serializer = new DataContractJsonSerializer(typeof(CommentSpec[]));
-                        var commentSpecs = (CommentSpec[]) serializer.ReadObject(resource);
-                        var commentSpec = commentSpecs.Find(ext);
-                        if (commentSpec == null)
-                        {
-                            Usage($"Unsupported file: {inputFile}");
-                        }
-                        Console.WriteLine($"Using {commentSpec?.Name} extension specification");
-                        companyTemplate.CommentSpec = commentSpec;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Usage(e.Message);
-            }
+            companyTemplate = CopyrightUtil.ReadTemplate(inputFile, template, Usage);
         }
 
         private static void Main(string[] args)
@@ -201,8 +89,7 @@ namespace CopyrightHeader
 
             CheckArguments();
 
-            GetCommentInfo();
-            var buffer = ReadFile(inputFile);
+            var buffer = CopyrightUtil.ReadFile(inputFile);
             if (buffer.Count > 0)
             {
                 if (lineCount > buffer.Count)
@@ -217,28 +104,7 @@ namespace CopyrightHeader
                 }
 
                 copyright.AddOrModifyCopyright(buffer, lineCount);
-                WriteFile(outputFile, buffer);
-            }
-        }
-
-        private static Stream ResourceStream(string name)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resources = assembly.GetManifestResourceNames();
-            var resourceName = resources.First(x => x.EndsWith(name));
-
-            var stream = assembly.GetManifestResourceStream(resourceName);
-            return stream;
-        }
-
-        private static string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
+                CopyrightUtil.WriteFile(outputFile, buffer);
             }
         }
     }

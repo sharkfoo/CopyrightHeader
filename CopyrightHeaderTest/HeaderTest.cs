@@ -25,7 +25,11 @@ namespace CopyrightHeaderTest
             $"// ©Copyright 2012 HPDC",
             $"// ©Copyright 1990, 1993, 1997-1999 Hewlett-Packard Development Company, L.P.",
             $"// (C)Copyright 1990, 1993, 1997-1999 Hewlett-Packard Development Company, L.P.",
-            $"// Copyright © {currentYear} HPDC"
+            $"// (C) Copyright 1990, 1993, 1997-1999 Hewlett-Packard Development Company, L.P.",
+            $"// Copyright © {currentYear} HPDC",
+            $"// Copyright© {currentYear} HPDC",
+            $"// Copyright (C) {currentYear} HPDC",
+            $"// Copyright(C) {currentYear} HPDC"
         };
 
         private static readonly List<string> modifiedHeaderList = new List<string>
@@ -40,7 +44,11 @@ namespace CopyrightHeaderTest
             $"// ©Copyright 2012, {currentYear} HP Development Company, L.P.",
             $"// ©Copyright 1990, 1993, 1997-1999, {currentYear} HP Development Company, L.P.",
             $"// (C)Copyright 1990, 1993, 1997-1999, {currentYear} HP Development Company, L.P.",
-            $"// Copyright © {currentYear} HP Development Company, L.P."
+            $"// (C) Copyright 1990, 1993, 1997-1999, {currentYear} HP Development Company, L.P.",
+            $"// Copyright © {currentYear} HP Development Company, L.P.",
+            $"// Copyright© {currentYear} HP Development Company, L.P.",
+            $"// Copyright (C) {currentYear} HP Development Company, L.P.",
+            $"// Copyright(C) {currentYear} HP Development Company, L.P."
         };
 
         private static readonly List<string> altHeaderList = new List<string>

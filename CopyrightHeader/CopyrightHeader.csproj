@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CopyrightHeaderKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,14 +48,14 @@
     <Compile Include="CommentSpec.cs" />
     <Compile Include="Copyright.cs" />
     <Compile Include="CopyrightTemplate.cs" />
+    <Compile Include="CopyrightUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="templates\kevin.json" />
-    <None Include="test.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="CopyrightHeaderKey.snk" />
+    <None Include="test.ps1" />
     <None Include="App.config" />
     <EmbeddedResource Include="CommentSpecification.json" />
     <EmbeddedResource Include="templates\hp.json" />
