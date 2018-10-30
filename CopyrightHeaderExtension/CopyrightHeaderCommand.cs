@@ -1,4 +1,7 @@
-﻿using System;
+//
+// © Copyright 2018 HP Development Company, L.P.
+//
+using System;
 using System.ComponentModel.Design;
 using System.Globalization;
 using CopyrightHeader;
@@ -91,7 +94,6 @@ namespace CopyrightHeaderExtension
         private void MenuItemCallback(object sender, EventArgs e)
         {
             var lineCount = 10;
-            //string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
 
             var dte = Package.GetGlobalService(typeof(DTE)) as DTE;
 
@@ -116,7 +118,6 @@ namespace CopyrightHeaderExtension
                         var copyright = new Copyright(template);
                         if (copyright.FindCurrentCopyright(buffer, lineCount))
                         {
-                            //Console.WriteLine("Current Copyright already exists.");
                             return;
                         }
 
@@ -124,16 +125,6 @@ namespace CopyrightHeaderExtension
                         CopyrightUtil.WriteFile(outputFile, buffer);
                     }
                 }
-                // Show a message box to prove we were here
-                /*
-                VsShellUtilities.ShowMessageBox(
-                    this.ServiceProvider,
-                    $"Editing document:  {name} ({kind})",
-                    title,
-                    OLEMSGICON.OLEMSGICON_INFO,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-                */
             }
         }
     }

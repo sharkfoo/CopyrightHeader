@@ -1,5 +1,5 @@
 //
-// © Copyright 2017 HP Development Company, L.P.
+// © Copyright 2017-2018 HP Development Company, L.P.
 //
 
 using System.Globalization;

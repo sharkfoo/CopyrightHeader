@@ -9,26 +9,33 @@
       "cs",
       "cpp",
       "c++",
-      "js"
+      "js",
+      "java",
+      "php",
+      "swift",
+      "go"
     ]
   },
   {
-    "Name": "Yaml",
-    "SingleComment": "#",
-    "CommentBegin": "",
-    "CommentEnd": "",
-    "Extensions": [
-      "yml"
-    ]
-  },
-  {
-    "Name": "Bash",
+    "Name": "Hash based",
     "SingleComment": "#",
     "CommentBegin": "",
     "CommentEnd": "",
     "Extensions": [
       "sh",
       "bash",
+      "py",
+      "yml"
+    ]
+  },
+  {
+    "Name": "Ruby",
+    "SingleComment": "#",
+    "CommentBegin": "=begin",
+    "CommentEnd": "=end",
+    "Extensions": [
+      "ruby",
+      "rb"
     ]
   },
   {

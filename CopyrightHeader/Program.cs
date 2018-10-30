@@ -1,10 +1,9 @@
 //
-// © Copyright 2017 HP Development Company, L.P.
+// © Copyright 2017-2018 HP Development Company, L.P.
 //
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Json;
 
 namespace CopyrightHeader
 {

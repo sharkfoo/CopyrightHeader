@@ -1,4 +1,7 @@
-﻿using System;
+//
+// © Copyright 2018 HP Development Company, L.P.
+//
+using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
