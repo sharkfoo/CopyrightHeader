@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33027.164
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyrightHeader", "CopyrightHeader\CopyrightHeader.csproj", "{E7B74C2E-C0C0-40C1-BFEC-9F8E11BA6050}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyrightHeaderTest", "CopyrightHeaderTest\CopyrightHeaderTest.csproj", "{A38790A3-CA45-429A-93D4-EA1A52E43941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyrightHeaderExtension", "CopyrightHeaderExtension\CopyrightHeaderExtension.csproj", "{4864DC76-AB05-4201-B2A1-BD676D76A187}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyrightHeaderExtension2019", "CopyrightHeaderExtension2019\CopyrightHeaderExtension2019.csproj", "{4864DC76-AB05-4201-B2A1-BD676D76A187}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

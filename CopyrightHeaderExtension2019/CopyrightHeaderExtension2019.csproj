@@ -25,7 +25,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CopyrightHeaderExtension</RootNamespace>
-    <AssemblyName>CopyrightHeaderExtension</AssemblyName>
+    <AssemblyName>CopyrightHeaderExtension2019</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -74,7 +74,10 @@
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Resources\CopyrightHeaderCommand.png" />
-    <Content Include="Resources\CopyrightHeaderCommandPackage.ico" />
+    <Content Include="Resources\CopyrightHeaderCommandPackage.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
